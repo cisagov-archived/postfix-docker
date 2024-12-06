@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 #!/usr/bin/env pytest -vs
 """Tests for postfix container."""
+=======
+"""Tests for example container."""
+>>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 
 # Standard Python Libraries
 from email.message import EmailMessage
@@ -11,6 +15,7 @@ import time
 # Third-Party Libraries
 import pytest
 
+<<<<<<< HEAD
 ARCHIVE_PW = "foobar"
 ARCHIVE_USER = "mailarchive"
 DOMAIN = "example.com"
@@ -19,6 +24,13 @@ MESSAGE = """
 This is a test message sent during the unit tests.
 """
 READY_MESSAGE = "daemon started"
+=======
+ENV_VAR = "ECHO_MESSAGE"
+ENV_VAR_VAL = "Hello World from docker compose!"
+READY_MESSAGE = "This is a debug message"
+DIVISION_MESSAGE = "8 / 2 == 4.000000"
+SECRET_QUOTE = "Three may keep a secret, if two of them are dead."  # nosec
+>>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 RELEASE_TAG = os.getenv("RELEASE_TAG")
 TEST_SEND_PW = "lemmy is god"
 TEST_SEND_USER = "testsender1"
@@ -60,6 +72,7 @@ def test_sending_mail(port, to_user):
         s.send_message(msg)
 
 
+<<<<<<< HEAD
 @pytest.mark.parametrize(
     "username,password",
     [
@@ -156,28 +169,43 @@ def test_imap_messages_cleared(username, password):
         message_count = int(data[0])
         print(f"inbox message count: {message_count}")
         assert message_count == 0, "Expected the inbox to be empty"
+=======
+def test_output(dockerc, main_container):
+    """Verify the container had the correct output."""
+    # make sure container exited if running test isolated
+    dockerc.wait(main_container.id)
+    log_output = main_container.logs()
+    assert DIVISION_MESSAGE in log_output, "Division message not found in log output."
+    assert SECRET_QUOTE in log_output, "Secret not found in log output."
+>>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 
 
 @pytest.mark.skipif(
     RELEASE_TAG in [None, ""], reason="this is not a release (RELEASE_TAG not set)"
 )
-def test_release_version():
+def test_release_version(project_version):
     """Verify that release tag version agrees with the module version."""
-    pkg_vars = {}
-    with open(VERSION_FILE) as f:
-        exec(f.read(), pkg_vars)  # nosec
-    project_version = pkg_vars["__version__"]
     assert (
         RELEASE_TAG == f"v{project_version}"
     ), "RELEASE_TAG does not match the project version"
 
 
+<<<<<<< HEAD
 def test_container_version_label_matches(main_container):
+=======
+def test_log_version(dockerc, project_version, version_container):
+    """Verify the container outputs the correct version to the logs."""
+    # make sure container exited if running test isolated
+    dockerc.wait(version_container.id)
+    log_output = version_container.logs().strip()
+    assert (
+        log_output == project_version
+    ), f"Container version output to log does not match project version file {VERSION_FILE}"
+
+
+def test_container_version_label_matches(project_version, version_container):
+>>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
     """Verify the container version label is the correct version."""
-    pkg_vars = {}
-    with open(VERSION_FILE) as f:
-        exec(f.read(), pkg_vars)  # nosec
-    project_version = pkg_vars["__version__"]
     assert (
         main_container.config.labels["org.opencontainers.image.version"]
         == project_version

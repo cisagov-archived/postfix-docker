@@ -31,13 +31,17 @@ docker run cisagov/example:0.2.0
 
 ### Running with Docker Compose ###
 
+<<<<<<< HEAD
 1. Create a `docker-compose.yml` file similar to the one below to use [Docker Compose](https://docs.docker.com/compose/)
 or use the [sample `docker-compose.yml`](docker-compose.yml) provided with
 this repository.
+=======
+1. Create a `compose.yml` file similar to the one below to use [Docker Compose](https://docs.docker.com/compose/).
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
 
     ```yaml
     ---
-    version: "3.7"
+    name: skeleton-docker
 
     services:
 <<<<<<< HEAD
@@ -52,6 +56,7 @@ this repository.
         restart: always
 =======
       example:
+<<<<<<< HEAD
         image: cisagov/example:0.2.0
         volumes:
           - type: bind
@@ -85,6 +90,19 @@ this repository.
           driver: default
           config:
             - subnet: 172.16.202.0/24
+=======
+        environment:
+          - ECHO_MESSAGE="Hello from docker compose"
+        image: cisagov/example:0.2.0
+        ports:
+          - protocol: tcp
+            published: "8080"
+            target: 8080
+        volumes:
+          - source: <your_log_dir>
+            target: /var/log
+            type: bind
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
     ```
 
 1. Start the container and detach:
@@ -107,11 +125,15 @@ environment variables.  See the
 - `privkey.pem`
 - `users.txt`
 
+<<<<<<< HEAD
 1. Then add the secrets to your `docker-compose.yml` file:
+=======
+1. Then add the secret to your `compose.yml` file:
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
 
     ```yaml
     ---
-    version: "3.7"
+    name: skeleton-docker
 
     secrets:
       fullchain_pem:
@@ -134,6 +156,7 @@ environment variables.  See the
         restart: always
 =======
       example:
+<<<<<<< HEAD
         image: cisagov/example:0.2.0
         volumes:
           - type: bind
@@ -174,6 +197,22 @@ environment variables.  See the
           driver: default
           config:
             - subnet: 172.16.202.0/24
+=======
+        environment:
+          - ECHO_MESSAGE="Hello from docker compose"
+        image: cisagov/example:0.2.0
+        ports:
+          - protocol: tcp
+            published: "8080"
+            target: 8080
+        secrets:
+          - source: quote_txt
+            target: quote.txt
+        volumes:
+          - source: <your_log_dir>
+            target: /var/log
+            type: bind
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
     ```
 
 ## Updating your container ##
@@ -237,9 +276,9 @@ If you want to add or remove dependencies you would update the `src/Pipfile` fil
 and then update dependencies as you would above.
 
 > [!NOTE]
-> You should only specify packages that are explicitly needed for your Docker
-> configuration. Allow [Pipenv] to manage the dependencies of the specified
-> packages.
+> You should only specify packages that are direct requirements of
+> your Docker configuration. Allow [Pipenv] to manage the dependencies
+> of the specified packages.
 
 ## Image tags ##
 
@@ -290,8 +329,13 @@ The following ports are exposed by this container:
 | 587 | Mail submission |
 | 993 | IMAPS |
 
+<<<<<<< HEAD
 The sample [Docker composition](docker-compose.yml) publishes the
 exposed ports at 1025, 1587, and 1993, respectively.
+=======
+The sample [Docker composition](compose.yml) publishes the
+exposed port at 8080.
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
 
 ## Environment variables ##
 

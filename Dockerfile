@@ -1,6 +1,6 @@
 # Official Docker images are in the form library/<app> while non-official
 # images are in the form <user>/<app>.
-FROM docker.io/library/python:3.13.1-alpine3.20 AS compile-stage
+FROM docker.io/library/python:3.13.2-alpine3.21 AS compile-stage
 
 <<<<<<< HEAD
 FROM debian:bullseye-slim
@@ -14,9 +14,9 @@ ENV VIRTUAL_ENV="${CISA_HOME}/.venv"
 >>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 
 # Versions of the Python packages installed directly
-ENV PYTHON_PIP_VERSION=24.3.1
-ENV PYTHON_PIPENV_VERSION=2024.4.0
-ENV PYTHON_SETUPTOOLS_VERSION=75.6.0
+ENV PYTHON_PIP_VERSION=25.0.1
+ENV PYTHON_PIPENV_VERSION=2024.4.1
+ENV PYTHON_SETUPTOOLS_VERSION=75.8.0
 ENV PYTHON_WHEEL_VERSION=0.45.1
 
 ###
@@ -57,7 +57,7 @@ RUN pipenv check --verbose \
 
 # Official Docker images are in the form library/<app> while non-official
 # images are in the form <user>/<app>.
-FROM docker.io/library/python:3.13.1-alpine3.20 AS build-stage
+FROM docker.io/library/python:3.13.2-alpine3.21 AS build-stage
 
 ###
 # For a list of pre-defined annotation keys and value types see:
